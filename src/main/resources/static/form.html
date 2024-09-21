@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Policy Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <style>
+        /* Enhance overall layout and spacing */
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #333;
+        }
+        h4 {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .watermark-form {
+            background-image: url('path/to/your/watermark-image.png'); /* Replace with your image path */
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.1;
+            padding: 20px;
+        }
+    </style> 	
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Insurance Policy Form</h2>
+        <form action="/form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <!-- Insured's Details -->
+            <h4>Insured's Details</h4>
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address *</label>
+                <textarea class="form-control" id="address" name="address" placeholder="Enter your address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number *</label>
+                <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" title="Mobile Number must be exactly 10 digits" required>
+            </div>
+
+            <!-- Policy Details -->
+            <h4>Policy Details</h4>
+            <div class="form-group">
+                <label for="vehicleNumber">Vehicle Number *</label>
+                <input type="text" class="form-control" id="vehicleNumber" name="vehicleNumber" placeholder="e.g., MH26 BC 4999" required>
+            </div>
+            <div class="form-group">
+                <label for="vehicleModelNumber">Vehicle Model Number *</label>
+                <input type="text" class="form-control" id="vehicleModelNumber" name="vehicleModelNumber" placeholder="e.g., Activa3G, Shine SP 125" required>
+            </div>
+            <div class="form-group">
+                <label for="vehicleManufacturer">Vehicle Manufacturer *</label>
+                <input type="text" class="form-control" id="vehicleManufacturer" name="vehicleManufacturer" placeholder="e.g., Honda, Suzuki, TVS, KTM, Royal Enfield" required>
+            </div>
+            <div class="form-group">
+                <label for="yearOfManufacture">Year of Manufacture *</label>
+                <input type="number" class="form-control" id="yearOfManufacture" name="yearOfManufacture" placeholder="e.g., 2017, 2018, 2022" required>
+            </div>
+            <div class="form-group">
+                <label for="vehicleChassisNumber">Vehicle Chassis Number *</label>
+                <input type="text" class="form-control" id="vehicleChassisNumber" name="vehicleChassisNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="fuelType">Fuel Type *</label>
+                <input type="text" class="form-control" id="fuelType" name="fuelType" placeholder="e.g., Petrol, Diesel" required>
+            </div>
+            <div class="form-group">
+                <label for="bodyType">Body Type of Vehicle *</label>
+                <input type="text" class="form-control" id="bodyType" name="bodyType" placeholder="e.g., Metal, Fibre, Aluminium" required>
+            </div>
+            <div class="form-group">
+                <label for="cubicCapacity">Cubic Capacity *</label>
+                <input type="number" class="form-control" id="cubicCapacity" name="cubicCapacity" placeholder="e.g., 100CC, 150CC, 200CC" required>
+            </div>
+            <div class="form-group">
+                <label for="vehicleColor">Colour of Vehicle *</label>
+                <input type="text" class="form-control" id="vehicleColor" name="vehicleColor" required>
+            </div>
+            <div class="form-group">
+                <label for="policyReceiptNumber">Policy Receipt Number *</label>
+                <input type="text" class="form-control" id="policyReceiptNumber" name="policyReceiptNumber" required>
+            </div>
+
+            <!-- Issuing Office Details -->
+            <h4>Issuing Office Details</h4>
+            <div class="form-group">
+                <label for="issuingOfficeAddress">Issuing Office Address *</label>
+                <input type="text" class="form-control" id="issuingOfficeAddress" name="issuingOfficeAddress" required>
+            </div>
+            <div class="form-group">
+                <label for="issuingOfficePhoneNumber">Issuing Office Phone Number *</label>
+                <input type="text" class="form-control" id="issuingOfficePhoneNumber" name="issuingOfficePhoneNumber" pattern="[0-9]{10}" title="Phone Number must be exactly 10 digits" required>
+            </div>
+            <div class="form-group">
+                <label for="issuingOfficeFaxNumber">Issuing Office Fax Number *</label>
+                <input type="text" class="form-control" id="issuingOfficeFaxNumber" name="issuingOfficeFaxNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="issuingOfficeEmail">Issuing Office Email *</label>
+                <input type="email" class="form-control" id="issuingOfficeEmail" name="issuingOfficeEmail" required>
+            </div>
+
+            <!-- Insurance Premium Details -->
+            <h4>Insurance Premium Details</h4>
+            <div class="form-group">
+                <label for="insuranceBasicAmount">Insurance Basic Amount *</label>
+                <input type="number" class="form-control" id="insuranceBasicAmount" name="insuranceBasicAmount" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="basicTPCoverAmount">Basic TP Cover Amount *</label>
+                <input type="number" class="form-control" id="basicTPCoverAmount" name="basicTPCoverAmount" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="tpPremiumAmount">TP Premium Amount *</label>
+                <input type="number" class="form-control" id="tpPremiumAmount" name="tpPremiumAmount" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="netPremium">Net Premium *</label>
+                <input type="number" class="form-control" id="netPremium" name="netPremium" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="serviceTaxOnPremium">Service Tax on Premium *</label>
+                <input type="number" class="form-control" id="serviceTaxOnPremium" name="serviceTaxOnPremium" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="totalPayable">Total Payable *</label>
+                <input type="number" class="form-control" id="totalPayable" name="totalPayable" step="0.01" required>
+            </div>
+
+            <!-- Buttons -->
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <script>
+        function validateForm() {
+            // Add your form validation logic here
+            return true;
+        }
+    </script>
+</body>
+</html>

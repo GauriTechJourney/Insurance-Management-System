@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Policy Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .report-section {
+            margin-bottom: 20px;
+        }
+        .report-section h2 {
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+        .report-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .report-section table th,
+        .report-section table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .buttons button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h1>Insurance Policy Report</h1>
+        
+        <div class="report-section">
+            <h2>Policy Holder Details</h2>
+            <table>
+                <tr>
+                    <th>Full Name</th>
+                    <td th:text="${insuranceForm.fullName}"></td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td th:text="${insuranceForm.address}"></td>
+                </tr>
+                <tr>
+                    <th>Mobile Number</th>
+                    <td th:text="${insuranceForm.mobileNumber}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="report-section">
+            <h2>Vehicle Details</h2>
+            <table>
+                <tr>
+                    <th>Vehicle Number</th>
+                    <td th:text="${insuranceForm.vehicleNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Model Number</th>
+                    <td th:text="${insuranceForm.vehicleModelNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Manufacturer</th>
+                    <td th:text="${insuranceForm.vehicleManufacturer}"></td>
+                </tr>
+                <tr>
+                    <th>Year of Manufacture</th>
+                    <td th:text="${insuranceForm.yearOfManufacture}"></td>
+                </tr>
+                <tr>
+                    <th>Chassis Number</th>
+                    <td th:text="${insuranceForm.vehicleChassisNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Fuel Type</th>
+                    <td th:text="${insuranceForm.fuelType}"></td>
+                </tr>
+                <tr>
+                    <th>Body Type</th>
+                    <td th:text="${insuranceForm.bodyType}"></td>
+                </tr>
+                <tr>
+                    <th>Cubic Capacity</th>
+                    <td th:text="${insuranceForm.cubicCapacity}"></td>
+                </tr>
+                <tr>
+                    <th>Color</th>
+                    <td th:text="${insuranceForm.vehicleColor}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="report-section">
+            <h2>Issuing Office Details</h2>
+            <table>
+                <tr>
+                    <th>Receipt Number</th>
+                    <td th:text="${insuranceForm.policyReceiptNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Policy Number</th>
+                    <td th:text="${insuranceForm.policyNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Office Address</th>
+                    <td th:text="${insuranceForm.issuingOfficeAddress}"></td>
+                </tr>
+                <tr>
+                    <th>Office Phone Number</th>
+                    <td th:text="${insuranceForm.issuingOfficePhoneNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Office Fax Number</th>
+                    <td th:text="${insuranceForm.issuingOfficeFaxNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Office Email</th>
+                    <td th:text="${insuranceForm.issuingOfficeEmail}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="report-section">
+            <h2>Premium Details</h2>
+            <table>
+                <tr>
+                    <th>Basic Insurance Amount</th>
+                    <td th:text="${insuranceForm.insuranceBasicAmount}"></td>
+                </tr>
+                <tr>
+                    <th>Basic TP Cover Amount</th>
+                    <td th:text="${insuranceForm.basicTPCoverAmount}"></td>
+                </tr>
+                <tr>
+                    <th>TP Premium Amount</th>
+                    <td th:text="${insuranceForm.tpPremiumAmount}"></td>
+                </tr>
+                <tr>
+                    <th>Net Premium</th>
+                    <td th:text="${insuranceForm.netPremium}"></td>
+                </tr>
+                <tr>
+                    <th>Service Tax on Premium</th>
+                    <td th:text="${insuranceForm.serviceTaxOnPremium}"></td>
+                </tr>
+                <tr>
+                    <th>Total Payable</th>
+                    <td th:text="${insuranceForm.totalPayable}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button th:onclick="'editInsurance(\'' + ${insuranceForm.id} + '\')'">Edit</button>
+        <button th:onclick="'deleteInsurance(\'' + ${insuranceForm.id} + '\')'">Delete</button>
+        <button onclick="exportToExcel()">Export to Excel</button>
+    </div>
+
+    <script>
+        function editInsurance(id) {
+            window.location.href = '/edit/' + id;
+        }
+
+        function deleteInsurance(id) {
+            fetch('/delete/' + id, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    alert('Entry deleted successfully.');
+                    window.location.href = '/some-page';
+                } else {
+                    alert('Failed to delete the entry.');
+                }
+            });
+        }
+
+        function exportToExcel() {
+            window.location.href = '/export/excel/' + document.querySelector('td[th\\:text="${insuranceForm.id}"]').textContent.trim();
+        }
+    </script>
+</body>
+</html>

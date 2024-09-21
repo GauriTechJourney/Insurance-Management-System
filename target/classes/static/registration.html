@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+    <script>
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var mobileNumber = document.getElementById("mobileNumber").value;
+
+            if (password !== confirmPassword) {
+                alert("Password and Confirm Password do not match.");
+                return false;
+            }
+
+            var mobileNumberPattern = /^[0-9]{10}$/;
+            if (!mobileNumberPattern.test(mobileNumber)) {
+                alert("Mobile Number must be exactly 10 digits.");
+                return false;
+            }
+
+            var fileInput = document.getElementById("photo");
+            var file = fileInput.files[0];
+            if (file && file.size > 1048576) {
+                alert("Photo size must be under 1MB.");
+                return false;
+            }
+
+            var fileType = fileInput.value.split('.').pop().toLowerCase();
+            var allowedTypes = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'svg', 'webp', 'tiff', 'ico'];
+
+            if (file && !allowedTypes.includes(fileType)) {
+                alert("File format not supported.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function updateFullName() {
+            var firstName = document.getElementById("firstName").value;
+            var middleName = document.getElementById("middleName").value;
+            var lastName = document.getElementById("lastName").value;
+
+            document.getElementById("fullName").value = `${firstName} ${middleName} ${lastName}`;
+        }
+
+        function getQueryParam(param) {
+            let query = window.location.search.substring(1);
+            let vars = query.split("&");
+            for (let i = 0; i < vars.length; i++) {
+                let pair = vars[i].split("=");
+                if (pair[0] === param) {
+                    return pair[1];
+                }
+            }
+            return "";
+        }
+
+        window.onload = function() {
+            let error = getQueryParam("error");
+            if (error) {
+                alert(decodeURIComponent(error.replace(/_/g, " ")));
+            }
+
+            let success = getQueryParam("success");
+            if (success === 'registration') {
+                window.location.href = "/login.html";
+            }
+        };
+    </script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #343a40;
+        }
+        label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .form-control, .form-control-file {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Registration Form</h2>
+        <form action="/register" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required oninput="updateFullName()">
+            </div>
+            <div class="form-group">
+                <label for="middleName">Middle Name *</label>
+                <input type="text" class="form-control" id="middleName" name="middleName" required oninput="updateFullName()">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required oninput="updateFullName()">
+            </div>
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" class="form-control" id="fullName" name="fullName" readonly>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number *</label>
+                <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" title="Mobile Number must be exactly 10 digits" required>
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo *</label>
+                <input type="file" class="form-control-file" id="photo" name="photo" accept=".jpeg, .jpg, .png" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register
